@@ -14,6 +14,11 @@ app.use(express.json());
 
 
 
+// Tells the server listen 
+app.listen(PORT, function() {
+  console.log("App listening on PORT " + PORT);
+});
+
 
 
 
