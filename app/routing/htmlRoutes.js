@@ -12,13 +12,8 @@ var PORT = process.argv.PORT || 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// 2 routes:
-// A GET Route to /survey which should display the survey page.
-// A default, catch-all route that leads to home.html which displays the home page.
-
-// Routes
+// HTML Routes
 // ================================
-
 app.get("/", function(req, res) {
   res.sendFile(path.join(__dirname, "home.html"))
 });
@@ -26,3 +21,10 @@ app.get("/", function(req, res) {
 app.get("/survey", function(req, res) {
   res.sendFile(path.join(__dirname, "survey.html"))
 });
+
+
+// Tells the server listen 
+app.listen(PORT, function() {
+  console.log("App listening on PORT " + PORT);
+});
+
