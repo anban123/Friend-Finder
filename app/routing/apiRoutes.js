@@ -18,6 +18,21 @@ app.use(express.json());
   //This will be used to handle incoming survey results. 
   //This route will also be used to handle the compatibility logic.
 
+app.get("/api/friends", function(req, res) {
+  return res.json(friends);
+});
+
+// Creates New Friend - takes in JSON input
+app.post("/api/friends", function(req, res) {
+  var newFriend = req.body;          
+
+  // Using a RegEx Pattern to remove spaces from newFriend //routeName creates fifth key value pair 
+  newFriend.routeName = newFriend.name.replace(/\s+/g, "").toLowerCase();
+  console.log(newFriend);
+  friends.push(newFriend);
+  res.json(newFriend);
+});
+
 // Tells the server listen 
 app.listen(PORT, function() {
   console.log("App listening on PORT " + PORT);
