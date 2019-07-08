@@ -49,6 +49,7 @@ var friends = [
 
 ];
 
+// 
 app.post("/api/friends", function(req, res) {
   var userInput = req.body;
   var userScores = userInput.scores;
@@ -89,8 +90,7 @@ app.post("/api/friends", function(req, res) {
     matchName: bestMatch.name,
     matchPhoto: bestMatch.photo
   });
-
-})
+});
 
 // Tells the server listen 
 app.listen(PORT, function() {
