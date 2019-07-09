@@ -1,30 +1,20 @@
 // Homework due 7.9.19
 
 // Dependencies
-var express = require("express");
 var path = require("path");
-
-// Sets up the Express app & makes port dynamic/3000
-var app = express();
-var PORT = process.argv.PORT || 3000;
-
-// Sets up Express app to handle data parsing - middleware/translator
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
 // HTML Routes
 // ================================
-app.get("/", function(req, res) {
-  res.sendFile(path.join(__dirname, "home.html"))
-});
 
-app.get("/survey", function(req, res) {
-  res.sendFile(path.join(__dirname, "survey.html"))
-});
+module.exports = function(app) {
 
+  app.get("/", function(req, res) {
+    res.sendFile(path.join(__dirname, "../public/home.html"))
+  });
 
-// Tells the server listen 
-app.listen(PORT, function() {
-  console.log("App listening on PORT " + PORT);
-});
+  app.get("/survey", function(req, res) {
+    res.sendFile(path.join(__dirname, "../public/survey.html"))
+  });
+
+};
 

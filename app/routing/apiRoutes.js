@@ -1,39 +1,54 @@
 // Homework due 7.9.19
 
-// Dependencies
-var express = require("express");
-var path = require("path");
+var friends = require("../data/friends");
 
-// Sets up the Express app & makes port dynamic/3000
-var app = express();
-var PORT = process.argv.PORT || 3000;
+module.exports = function(app) {
+  app.get("/api/friends", function(req, res) {
+    res.json(friends);
+  });
 
-// Sets up Express app to handle data parsing - middleware/translator
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+  // Function to cal best match, update array, and modal
+  app.post("/api/friends", function(req, res) {
 
-//2 routes
-// A GET route with the url /api/friends. This will be used to display a JSON of all possible friends.
-// A POST routes /api/friends. 
-  //This will be used to handle incoming survey results. 
-  //This route will also be used to handle the compatibility logic.
+    // Grabs the score array from user input and stores it in a variable
+    var userInput = req.body;
+    var userScores = userInput.scores;
+    
+    // Set bestMatch variable to be replaced when there's a lower score 
+    var bestMatch = {
+      name: "",
+      photo: "",
+      scores: 1000
+    };
 
-app.get("/api/friends", function(req, res) {
-  return res.json(friends);
-});
+    // Set total difference so it can be used later
+    var totalDiff = 0;
 
-// Creates New Friend - takes in JSON input
-app.post("/api/friends", function(req, res) {
-  var newFriend = req.body;          
+    // Loop through each index's scores in the friends array
+    for (var i = 0; i < friends.length; i++) {
+      var currentFriend = friends[i];
+      totalDiff = 0;
 
-  // Using a RegEx Pattern to remove spaces from newFriend //routeName creates fifth key value pair 
-  newFriend.routeName = newFriend.name.replace(/\s+/g, "").toLowerCase();
-  console.log(newFriend);
-  friends.push(newFriend);
-  res.json(newFriend);
-});
+      // Loop through user's scores and counts the difference in scores
+      for (var j = 0; j < userScores[j]; j++) {
+        var currentScore = currentFriend.scores;
+        totalDiff += Math.abs(parseInt(currentScore) - parseInt(userScores));
+      }
+    
+      // Compare difference in scores and resets bestMatch if user score is lower
+      if (totalDiff < bestMatch.scores) {
+        bestMatch.name = currentFriend.name;
+        bestMatch.photo = currentFriend.photo;
+        bestMatch.scores = currentFriend.scores;
+      }
+    }
+    // Push the user's info into the friends array
+    friends.push(req.body);
 
-// Tells the server listen 
-app.listen(PORT, function() {
-  console.log("App listening on PORT " + PORT);
-});
+    // Modal pop-up to display the best match to the user 
+    res.json({
+      matchName: bestMatch.name,
+      matchPhoto: bestMatch.photo
+    });
+  });
+};
