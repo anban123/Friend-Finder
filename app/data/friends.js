@@ -1,6 +1,6 @@
 // Homework due 7.9.19
 
-// Dependencies
+// Dependencies 
 // var express = require("express");
 // var path = require("path");
 
@@ -37,5 +37,5 @@ var friends = [
   }
 ];
 
-module.exports = friends;   //missing dots.......
+module.exports = friends;   
 

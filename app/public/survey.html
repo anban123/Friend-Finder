@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>FF Survey</title> 
 
-    <!-- CSS and JS -->
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- JQuery -->
     <script src="https://code.jquery.com/jquery.js"></script>
 
-    <!-- Bootstrap -->
+    <!-- Bootstrap  -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
     <!-- Font Awesome -->
@@ -21,6 +23,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
 </head>
 <body>
+    <!-- Bootstrap Modal -->
+    <div id="modal-id" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Best Match!</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
 
     <div class="container">
         <h2>Survey Questions</h2>
@@ -157,27 +178,6 @@
             </div>
     </footer>
 
-    <div class="modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Best Match!</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <h2 id="friendName"></h2>
-              <image id="friendPhoto" src="/friends.js" alt="photo"/>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    
     <script>src="https://code.jquery.com/jquery-3.2.1.min.js"</script>
 
     <!-- HANDLES HOW FORM DATA IS LOADED FROM THE SERVER -->
@@ -226,13 +226,20 @@
         };
 
         //Modal
-        $.post("./api/friends", newFriend, function(data) {
-            $("#friendName").text(data.name);
-            $("#friendPhoto").attr(data.photo);
-            $('#myModal').on('shown.bs.modal', function () {
-            $('#myInput').trigger('focus')
-        })
-        });
+        $.ajax({
+            method: "POST",
+            url: "/api/friends",
+            data: newFriend
+        }).then(function(res) {
+            console.log(res);
+
+            $(".modal-body").append(`<img style="max-width:100px" src="${res.matchPhoto}">`);
+            $(".modal-body").append(`<h2>${res.matchName}</h2>`);
+            
+    
+            $('#modal-id').modal()
+            
+    }); 
     });
 
      

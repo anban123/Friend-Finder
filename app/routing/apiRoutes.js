@@ -2,7 +2,7 @@
 
 var friends = require("../data/friends");
 
-module.exports = function(app) {
+module.exports = function(app) { 
   app.get("/api/friends", function(req, res) {
     res.json(friends);
   });
@@ -13,6 +13,7 @@ module.exports = function(app) {
     // Grabs the score array from user input and stores it in a variable
     var userInput = req.body;
     var userScores = userInput.scores;
+    console.log("userScores=======================", userInput);
     
     // Set bestMatch variable to be replaced when there's a lower score 
     var bestMatch = {
@@ -30,10 +31,10 @@ module.exports = function(app) {
       totalDiff = 0;
 
       // Loop through user's scores and counts the difference in scores
-      for (var j = 0; j < userScores[j]; j++) {
-        var currentScore = currentFriend.scores;
-        totalDiff += Math.abs(parseInt(currentScore) - parseInt(userScores));
-      }
+      // for (var j = 0; j < userScores.length; j++) {
+      //   var currentScore = currentFriend.scores;
+      //   totalDiff += Math.abs(parseInt(currentScore) - parseInt(userScores));
+      // }
     
       // Compare difference in scores and resets bestMatch if user score is lower
       if (totalDiff < bestMatch.scores) {
@@ -43,7 +44,7 @@ module.exports = function(app) {
       }
     }
     // Push the user's info into the friends array
-    friends.push(req.body);
+    // friends.push(req.body);
 
     // Modal pop-up to display the best match to the user 
     res.json({
