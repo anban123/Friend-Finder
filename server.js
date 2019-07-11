@@ -2,7 +2,7 @@
 
 // Dependencies
 var express = require("express");
-var path = require("path");
+var path = require("path");  
 
 // Sets up the Express app & makes port dynamic/3000
 var app = express();
