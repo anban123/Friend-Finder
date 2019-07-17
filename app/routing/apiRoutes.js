@@ -13,7 +13,7 @@ module.exports = function(app) {
     // Grabs the score array from user input and stores it in a variable
     var userInput = req.body;
     var userScores = userInput.scores;
-    console.log("userScores=======================", userInput);
+    console.log("req.body=======================", req.body);  // = {}  why???????????????????????
     
     // Set bestMatch variable to be replaced when there's a lower score 
     var bestMatch = {
